@@ -1,5 +1,8 @@
 ﻿using back_end.Entidades;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace back_end.Repositorios
 {
@@ -15,8 +18,16 @@ namespace back_end.Repositorios
             };
         }
 
-        public List<Genero> obtenerTodosLosGeneros() {
+        public List<Genero> obtenerTodosLosGeneros() 
+        {
             return _generos;
+        }
+
+        public async Task<Genero> obetenerPorID(int id)
+        {
+            await Task.Delay(1);
+
+            return  _generos.FirstOrDefault(x => x.id == id);
         }
     }
 }
