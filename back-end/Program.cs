@@ -1,3 +1,5 @@
+using back_end.Controllers;
+using back_end.Repositorios;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

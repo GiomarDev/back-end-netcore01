@@ -26,3 +26,10 @@ D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\obj\Debug\net5.0\refint\b
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\obj\Debug\net5.0\back-end.pdb
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\obj\Debug\net5.0\back-end.genruntimeconfig.cache
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\obj\Debug\net5.0\ref\back-end.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
