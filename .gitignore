@@ -1,5 +1,10 @@
-/bin/debug/
-/.vs/
-/.vs/ProjectEvaluation/
-/.vs/back-end/FileContentIndex/
-/.vs/back-end/v17/
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.vs/*
+vs/*
+*.pdb
+*.cache
+*.v12.suo
+*.sln
+
+back-end/bin/*
+back-end/obj/Debug/*
