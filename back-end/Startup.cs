@@ -31,6 +31,14 @@ namespace back_end
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    var frontend_url = Configuration.GetValue<string>("frontend_url");
+                    builder.WithOrigins(frontend_url).AllowAnyMethod().AllowAnyHeader();
+                });
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
             services.AddControllers(options => 
             {
@@ -56,6 +64,8 @@ namespace back_end
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthentication();
 

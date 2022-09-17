@@ -26,7 +26,7 @@ namespace back_end.Controllers
         [HttpGet]
         public ActionResult<List<Genero>> Get() 
         {
-            return new List<Genero>() { new Genero() { id = 1, nombre = "Giomar" } };
+            return new List<Genero>() { new Genero() { id = 1, nombre = "Prueba desde back01" } };
         }
 
         [HttpGet("{id:int}")]
