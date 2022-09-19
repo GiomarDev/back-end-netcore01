@@ -1,3 +1,4 @@
+using AutoMapper;
 using back_end.Controllers;
 using back_end.Filtros;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +33,7 @@ namespace back_end
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
             services.AddCors(options =>
@@ -39,7 +41,7 @@ namespace back_end
                 options.AddDefaultPolicy(builder =>
                 {
                     var frontend_url = Configuration.GetValue<string>("frontend_url");
-                    builder.WithOrigins(frontend_url).AllowAnyMethod().AllowAnyHeader();
+                    builder.WithOrigins(frontend_url).AllowAnyMethod().AllowAnyHeader().WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
                 });
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
