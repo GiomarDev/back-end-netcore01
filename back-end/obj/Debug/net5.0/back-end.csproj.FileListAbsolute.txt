@@ -63,3 +63,7 @@ D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Azure.Co
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Azure.Storage.Blobs.dll
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Azure.Storage.Common.dll
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\NetTopologySuite.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\NetTopologySuite.IO.SqlServerBytes.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\obj\Debug\net5.0\EFCoreSqlServerNetTopologySuite.cs

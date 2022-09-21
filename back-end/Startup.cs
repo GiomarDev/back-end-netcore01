@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,8 +37,23 @@ namespace back_end
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+            services.AddSingleton(provider =>
+                new MapperConfiguration(config =>
+                {
+                    var geometryFactory = provider.GetRequiredService<GeometryFactory>();
+                    config.AddProfile(new AutoMapperProfiles(geometryFactory));
+                }).CreateMapper());
+
+            services.AddSingleton<GeometryFactory>(NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326));
+
+            //Azure
             services.AddTransient<IAlamacenadorArchivos, AlamacenadorAzureStorage>();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            //Aplicación
+            //services.AddTransient<IAlamacenadorArchivos, AlmacenadorArchivosLocal>();
+            //services.AddHttpContextAccessor();
+            
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection"), 
+                                                        sqlserver => sqlserver.UseNetTopologySuite()));
 
             services.AddCors(options =>
             {
@@ -69,6 +86,9 @@ namespace back_end
             }
 
             app.UseHttpsRedirection();
+
+            //Clase para guardar archivos localmente wwwroot
+            app.UseStaticFiles();
 
             app.UseRouting();
 
