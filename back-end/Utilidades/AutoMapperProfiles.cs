@@ -16,6 +16,8 @@ namespace back_end.Utilidades
             CreateMap<CineCreacionDTO, Cine>().ForMember(x => x.ubicacion,
                                                          x => x.MapFrom(dto => geometryFactory.CreatePoint
                                                          (new Coordinate(dto.longitud, dto.latitud))));
+            CreateMap<Cine, CineDTO>().ForMember(x => x.latitud, dto => dto.MapFrom(campo => campo.ubicacion.Y))
+                                      .ForMember(x => x.longitud, dto => dto.MapFrom(campo => campo.ubicacion.X));
         }
     }
 }
