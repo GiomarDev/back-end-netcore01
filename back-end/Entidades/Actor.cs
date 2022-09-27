@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace back_end.Entidades
@@ -12,5 +13,6 @@ namespace back_end.Entidades
         public string biografia { get; set; }
         public DateTime fechaNacimiento { get; set; }
         public string foto { get; set; }
+        public List<PeliculasActores> peliculasActores { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace back_end.Controllers
             this.mapper = mapper;
         }
 
+        #region EndPoints
+        
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CineCreacionDTO cineCreacionDTO)
         {
@@ -86,5 +88,7 @@ namespace back_end.Controllers
             await context.SaveChangesAsync();
             return NoContent();
         }
+        
+        #endregion
     }
 }

@@ -12,5 +12,6 @@ namespace back_end.Entidades
         [StringLength(maximumLength: 50 , ErrorMessage ="Tiene una longitud de 50 caracteres")]
         [PrimeraLetraMayuscula]
         public string nombre { get; set; }
+        public List<PeliculasGeneros> peliculasGeneros { get; set; }
     }
 }

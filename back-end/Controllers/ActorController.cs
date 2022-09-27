@@ -28,6 +28,8 @@ namespace back_end.Controllers
             this.alamacenadorArchivos = alamacenadorArchivos;
         }
 
+        #region EndPoints
+
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] ActorCreacionDTO actorCreacionDTO)
         {
@@ -97,5 +99,17 @@ namespace back_end.Controllers
             return NoContent();
         }
 
+        [HttpPost("buscarPorNombre")]
+        public async Task<ActionResult<List<PeliculaActorDTO>>> BuscarPorNombre([FromBody] string nombre) 
+        {
+            if (string.IsNullOrEmpty(nombre)) { return new List<PeliculaActorDTO>(); }
+            return await context.Actores.
+                                         Where(x => x.nombre.Contains(nombre)).
+                                         Select(x => new PeliculaActorDTO { id = x.id, nombre = x.nombre, foto = x.foto}).
+                                         Take(5).
+                                         ToListAsync();
+        }
+
+        #endregion
     }
 }

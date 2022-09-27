@@ -34,6 +34,8 @@ namespace back_end.Controllers
             this.mapper = mapper;
         }
 
+        #region EndPoints
+        
         [HttpGet]
         public async Task<ActionResult<List<GeneroDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
         {
@@ -94,6 +96,7 @@ namespace back_end.Controllers
             await context.SaveChangesAsync();
             return NoContent();
         }
-
+        
+        #endregion
     }
 }
