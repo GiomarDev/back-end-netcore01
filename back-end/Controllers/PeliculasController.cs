@@ -5,6 +5,7 @@ using back_end.Utilidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace back_end.Controllers
@@ -28,7 +29,23 @@ namespace back_end.Controllers
         }
 
         #region EndPoints
-        
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PeliculaDTO>> Get(int id)
+        {
+            var pelicula = await context.Peliculas.
+                           Include(x => x.peliculasGeneros).ThenInclude(x => x.genero).
+                           Include(x => x.peliculasActores).ThenInclude(x => x.actor).
+                           Include(x => x.peliculasCines).ThenInclude(x => x.cine).
+                           FirstOrDefaultAsync(x => x.id == id);
+            if (pelicula == null) { return NotFound(); }
+            
+            var dto = mapper.Map<PeliculaDTO>(pelicula);
+            dto.actores = dto.actores.OrderBy(x => x.orden).ToList();
+
+            return dto;
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] PeliculaCreacionDTO peliculaCreacionDTO)
         {
