@@ -13,7 +13,7 @@ namespace back_end.Controllers
 {
     [ApiController]
     [Route("api/peliculas")]
-    public class PeliculasController: ControllerBase
+    public class PeliculasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
@@ -30,6 +30,22 @@ namespace back_end.Controllers
         }
 
         #region EndPoints
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var pelicula = await context.Peliculas.FirstOrDefaultAsync(x => x.id == id);
+
+            if (pelicula == null)
+            {
+                return NotFound();
+            }
+
+            context.Remove(pelicula);
+            await context.SaveChangesAsync();
+            await alamacenadorArchivos.BorrarArchivo(pelicula.poster, contenedor);
+            return NoContent();
+        }
 
         [HttpGet("PutGet/{id:int}")]
         public async Task<ActionResult<PeliculasPutGetDTO>> PutGet(int id)
@@ -125,8 +141,42 @@ namespace back_end.Controllers
             return dto;
         }
 
+        [HttpGet("filtrar")]
+        public async Task<ActionResult<List<PeliculaDTO>>> Filtrar([FromQuery] PeliculasFiltrarDTO peliculasFiltrarDTO)
+        {
+            var peliculasQueryable = context.Peliculas.AsQueryable();
+
+            if (!string.IsNullOrEmpty(peliculasFiltrarDTO.titulo))
+            {
+                peliculasQueryable = peliculasQueryable.Where(x => x.titulo.Contains(peliculasFiltrarDTO.titulo));
+            }
+
+            if (peliculasFiltrarDTO.enCines)
+            {
+                peliculasQueryable = peliculasQueryable.Where(x => x.enCines);
+            }
+
+            if (peliculasFiltrarDTO.proximosEstrenos)
+            {
+                var hoy = DateTime.Today;
+                peliculasQueryable = peliculasQueryable.Where(x => x.fechaLanzamiento > hoy);
+            }
+
+            if (peliculasFiltrarDTO.generoId != 0)
+            {
+                peliculasQueryable = peliculasQueryable
+                    .Where(x => x.peliculasGeneros.Select(y => y.generoID)
+                    .Contains(peliculasFiltrarDTO.generoId));
+            }
+
+            await HttpContext.InsertarParametrosPaginacionCabecera(peliculasQueryable);
+
+            var peliculas = await peliculasQueryable.Paginar(peliculasFiltrarDTO.paginacionDTO).ToListAsync();
+            return mapper.Map<List<PeliculaDTO>>(peliculas);
+        }
+
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] PeliculaCreacionDTO peliculaCreacionDTO)
+        public async Task<ActionResult<int>> Post([FromForm] PeliculaCreacionDTO peliculaCreacionDTO)
         {
             var pelicula = mapper.Map<Pelicula>(peliculaCreacionDTO);
             if (peliculaCreacionDTO.poster != null)
@@ -136,7 +186,7 @@ namespace back_end.Controllers
             EscribirOrdenActores(pelicula);
             context.Add(pelicula);
             await context.SaveChangesAsync();
-            return NoContent();
+            return pelicula.id;
         }
 
         [HttpGet("PostGet")]

@@ -3,19 +3,19 @@
     public class PaginacionDTO
     {
         public int pagina { get; set; } = 1;
-        
-        public int recordsPagina = 10;
+
+        private int recordsPorPagina = 10;
         public readonly int cantidadMaximaRecordsPagina = 50;
 
-        public int RecordsPagina
+        public int recordsPorPorPagina
         {
             get 
             {
-                return recordsPagina;
+                return recordsPorPagina;
             }
             set
-            { 
-                recordsPagina = (value > cantidadMaximaRecordsPagina) ? cantidadMaximaRecordsPagina : value;
+            {
+                recordsPorPagina = (value > cantidadMaximaRecordsPagina) ? cantidadMaximaRecordsPagina : value;
             }
         }
     }

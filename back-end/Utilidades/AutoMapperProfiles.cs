@@ -25,9 +25,10 @@ namespace back_end.Utilidades
                                                        ForMember(x => x.peliculasGeneros, opciones => opciones.MapFrom(MapearPeliculasGeneros))
                                                        .ForMember(x => x.peliculasCines, opciones => opciones.MapFrom(MapearPeliculasCines))
                                                        .ForMember(x => x.peliculasActores, opciones => opciones.MapFrom(MapearPeliculasActores));
-            CreateMap<Pelicula, PeliculaDTO>().ForMember(x => x.generos, options => options.MapFrom(MapearPeliculasGeneros)).
-                                               ForMember(x => x.actores, options => options.MapFrom(MapearPeliculasActores)).
-                                               ForMember(x => x.cines, options => options.MapFrom(MapearPeliculasCines));
+            CreateMap<Pelicula, PeliculaDTO>()
+                                                .ForMember(x => x.generos, options => options.MapFrom(MapearPeliculasGeneros))
+                                                .ForMember(x => x.actores, options => options.MapFrom(MapearPeliculasActores))
+                                                .ForMember(x => x.cines, options => options.MapFrom(MapearPeliculasCines));
         }
 
         private List<CineDTO> MapearPeliculasCines(Pelicula pelicula, PeliculaDTO peliculaDTO)
