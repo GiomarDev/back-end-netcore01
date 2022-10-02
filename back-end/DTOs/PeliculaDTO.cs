@@ -15,5 +15,7 @@ namespace back_end.DTOs
         public List<GeneroDTO> generos { get; set; }
         public List<PeliculaActorDTO> actores { get; set; }
         public List<CineDTO> cines { get; set; }
+        public int votoUser { get; set; }
+        public double promedioVoto { get; set; }
     }
 }

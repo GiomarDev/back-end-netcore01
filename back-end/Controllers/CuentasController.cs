@@ -41,7 +41,7 @@ namespace back_end.Controllers
                 return await ConstruirToken(credenciales);
             }
             else {
-                return BadRequest();
+                return BadRequest(resultado.Errors);
             }
         }
 

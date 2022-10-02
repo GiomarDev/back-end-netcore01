@@ -2,6 +2,9 @@
 using back_end.DTOs;
 using back_end.Entidades;
 using back_end.Utilidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,20 +16,24 @@ namespace back_end.Controllers
 {
     [ApiController]
     [Route("api/peliculas")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PeliculasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IAlamacenadorArchivos alamacenadorArchivos;
+        private readonly UserManager<IdentityUser> userManager;
         private readonly string contenedor = "peliculas";
 
         public PeliculasController(ApplicationDbContext context,
                                    IMapper mapper,
-                                   IAlamacenadorArchivos alamacenadorArchivos)
+                                   IAlamacenadorArchivos alamacenadorArchivos,
+                                   UserManager<IdentityUser> userManager)
         {
             this.context = context;
             this.mapper = mapper;
             this.alamacenadorArchivos = alamacenadorArchivos;
+            this.userManager = userManager;
         }
 
         #region EndPoints
@@ -104,6 +111,7 @@ namespace back_end.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<LandingPageDTO>> Get() 
         {
             var top = 6;
@@ -126,6 +134,7 @@ namespace back_end.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         public async Task<ActionResult<PeliculaDTO>> Get(int id)
         {
             var pelicula = await context.Peliculas.
@@ -134,14 +143,36 @@ namespace back_end.Controllers
                            Include(x => x.peliculasCines).ThenInclude(x => x.cine).
                            FirstOrDefaultAsync(x => x.id == id);
             if (pelicula == null) { return NotFound(); }
+
+            var promedioVoto = 0.00;
+            var usuarioVoto = 0;
+            if (await context.Ratings.AnyAsync(x => x.peliculaID == id)) {
+
+                promedioVoto = await context.Ratings.Where(x => x.peliculaID == id).AverageAsync(x => x.puntuacion);
+
+                if (HttpContext.User.Identity.IsAuthenticated)
+                {
+                    var email = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email").Value;
+                    var usuario = await userManager.FindByEmailAsync(email);
+                    var userID = usuario.Id;
+                    var ratingBD = await context.Ratings.FirstOrDefaultAsync(x => x.userID == userID && x.peliculaID == id);
+
+                    if (ratingBD != null) {
+                        usuarioVoto = ratingBD.puntuacion;
+                    }
+                }
+            }
             
             var dto = mapper.Map<PeliculaDTO>(pelicula);
+            dto.votoUser = usuarioVoto;
+            dto.promedioVoto = promedioVoto;
             dto.actores = dto.actores.OrderBy(x => x.orden).ToList();
 
             return dto;
         }
 
         [HttpGet("filtrar")]
+        [AllowAnonymous]
         public async Task<ActionResult<List<PeliculaDTO>>> Filtrar([FromQuery] PeliculasFiltrarDTO peliculasFiltrarDTO)
         {
             var peliculasQueryable = context.Peliculas.AsQueryable();
