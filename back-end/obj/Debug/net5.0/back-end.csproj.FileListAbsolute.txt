@@ -69,3 +69,4 @@ D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\NetTopol
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\obj\Debug\net5.0\EFCoreSqlServerNetTopologySuite.cs
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\libman.json
 D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\Proyects\Angular y Net Core\01\VS\back-end\back-end\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
