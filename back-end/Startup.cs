@@ -79,6 +79,11 @@ namespace back_end
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["llavejwt"])),
                         ClockSkew = TimeSpan.Zero
                      });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("EsAdmin", policy => policy.RequireClaim("role", "admin"));
+            });
+
             services.AddControllers(options => 
             {
                 options.Filters.Add(typeof(FiltroDeExcepcion));       

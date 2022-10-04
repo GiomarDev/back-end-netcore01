@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using back_end.DTOs;
 using back_end.Entidades;
+using Microsoft.AspNetCore.Identity;
 using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace back_end.Utilidades
                                                 .ForMember(x => x.generos, options => options.MapFrom(MapearPeliculasGeneros))
                                                 .ForMember(x => x.actores, options => options.MapFrom(MapearPeliculasActores))
                                                 .ForMember(x => x.cines, options => options.MapFrom(MapearPeliculasCines));
+            CreateMap<IdentityUser, UsuarioDTO>();
         }
 
         private List<CineDTO> MapearPeliculasCines(Pelicula pelicula, PeliculaDTO peliculaDTO)
